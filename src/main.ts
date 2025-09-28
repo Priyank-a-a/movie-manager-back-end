@@ -3,6 +3,8 @@ import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { DataSource } from 'typeorm';
 import { seedData } from './seeder';
+import { existsSync, mkdirSync } from 'fs';
+import { join } from 'path';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -20,6 +22,12 @@ async function bootstrap() {
     origin: 'http://localhost:3000', // frontend URL (Next.js default is 3000, change if needed)
     credentials: true,
   });
+
+  // Ensure uploads directory exists
+  const uploadsPath = join(__dirname, '..', 'uploads');
+  if (!existsSync(uploadsPath)) {
+    mkdirSync(uploadsPath, { recursive: true });
+  }
 
   // const dataSource = app.get(DataSource);
 

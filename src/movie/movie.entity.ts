@@ -1,13 +1,4 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToOne,
-  OneToOne,
-  JoinColumn,
-} from 'typeorm';
-import { User } from '../auth/user.entity';
-import { Poster } from 'src/poster.entity';
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
 export class Movie {
@@ -20,13 +11,6 @@ export class Movie {
   @Column()
   publishingYear: number;
 
-  @ManyToOne(() => User, (user) => user.movies)
-  createdBy: User;
-
-  @OneToOne(() => Poster, (poster) => poster.movie, {
-    cascade: true,
-    eager: true,
-  })
-  @JoinColumn()
-  poster: Poster;
+  @Column({ nullable: true })
+  poster: string;
 }

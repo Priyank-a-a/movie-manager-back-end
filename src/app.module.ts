@@ -4,8 +4,8 @@ import { MovieModule } from './movie/movie.module';
 import { User } from './auth/user.entity';
 import { AuthModule } from './auth/auth.module';
 import { Movie } from './movie/movie.entity';
-import { PosterModule } from './poster.module';
-import { Poster } from './poster.entity';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -26,13 +26,18 @@ import { Poster } from './poster.entity';
       username: 'movie_user',
       password: 'password123',
       database: 'movie_db',
-      entities: [User, Movie, Poster],
+      entities: [User, Movie],
       synchronize: true,
+    }),
+
+    // Serve uploaded files under /uploads
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'uploads'),
+      serveRoot: '/uploads',
     }),
 
     AuthModule,
     MovieModule,
-    PosterModule,
   ],
 })
 export class AppModule {}

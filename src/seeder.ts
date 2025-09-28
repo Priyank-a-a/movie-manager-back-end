@@ -1,12 +1,10 @@
 import { DataSource } from 'typeorm';
 import { User } from './auth/user.entity';
 import { Movie } from './movie/movie.entity';
-import { Poster } from './poster.entity';
 
 export async function seedData(dataSource: DataSource) {
   const userRepo = dataSource.getRepository(User);
   const movieRepo = dataSource.getRepository(Movie);
-  const posterRepo = dataSource.getRepository(Poster);
 
   // --- Users (idempotent) ---
   let admin = await userRepo.findOne({ where: { username: 'admin' } });
@@ -28,35 +26,27 @@ export async function seedData(dataSource: DataSource) {
   }
 
   // --- Posters (idempotent) ---
-  const poster1Url = 'https://via.placeholder.com/200x300.png?text=Inception';
-  const poster2Url = 'https://via.placeholder.com/200x300.png?text=Interstellar';
-  let poster1 = await posterRepo.findOne({ where: { imageUrl: poster1Url } });
-  if (!poster1) {
-    poster1 = await posterRepo.save({ imageUrl: poster1Url });
-  }
-  let poster2 = await posterRepo.findOne({ where: { imageUrl: poster2Url } });
-  if (!poster2) {
-    poster2 = await posterRepo.save({ imageUrl: poster2Url });
-  }
 
   // --- Movies (idempotent) ---
-  const existingInception = await movieRepo.findOne({ where: { title: 'Inception' } });
+  const existingInception = await movieRepo.findOne({
+    where: { title: 'Inception' },
+  });
   if (!existingInception) {
     await movieRepo.save({
       title: 'Inception',
       publishingYear: 2010,
-      createdBy: admin,
-      poster: poster1,
+      poster: '',
     });
   }
 
-  const existingInterstellar = await movieRepo.findOne({ where: { title: 'Interstellar' } });
+  const existingInterstellar = await movieRepo.findOne({
+    where: { title: 'Interstellar' },
+  });
   if (!existingInterstellar) {
     await movieRepo.save({
       title: 'Interstellar',
       publishingYear: 2014,
-      createdBy: testUser,
-      poster: poster2,
+      poster: '',
     });
   }
 
@@ -72,7 +62,7 @@ if (require.main === module) {
     username: 'movie_user',
     password: 'password123',
     database: 'movie_db',
-    entities: [User, Movie, Poster],
+    entities: [User, Movie],
     synchronize: true,
   });
 
