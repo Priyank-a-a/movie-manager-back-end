@@ -19,7 +19,7 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
 
   app.enableCors({
-    origin: 'http://localhost:3000', // frontend URL (Next.js default is 3000, change if needed)
+    origin: 'http://3.26.211.135:3000',
     credentials: true,
   });
 

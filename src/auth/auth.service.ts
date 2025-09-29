@@ -32,9 +32,12 @@ export class AuthService {
     return { token: this.jwtService.sign(payload) };
   }
 
-  async register(username: string, password: string) {
+  async register(username: string, email: string, password: string) {
     const hashed = await bcrypt.hash(password, 10);
-    const user = this.usersRepo.create({ username, password: hashed });
-    return this.usersRepo.save(user);
+    const user = this.usersRepo.create({ username, email, password: hashed });
+    const saved = await this.usersRepo.save(user);
+    const { password: _pw, ...result } = saved as any;
+    const payload = { username: result.username, email: result.email, sub: result.id };
+    return { token: this.jwtService.sign(payload) };
   }
 }
