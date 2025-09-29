@@ -9,26 +9,30 @@ import { join } from 'path';
 
 @Module({
   imports: [
-    // TypeOrmModule.forRoot({
-    //   type: 'postgres',
-    //   host: 'localhost'
-    //   port: 5432,
-    //   username: 'your_db_username',
-    //   password: 'your_db_password',
-    //   database: 'movie_db',
-    //   entities: [User, Movie],
-    //   synchronize: true, // for dev only, auto-create tables
-    // }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
+      host: 'moviemanagerdb-1.cxamaiqqe85n.ap-southeast-2.rds.amazonaws.com',
       port: 5432,
-      username: 'movie_user',
-      password: 'password123',
-      database: 'movie_db',
+      username: 'postgres',
+      password: 'postgres#1',
+      database: 'postgres',
       entities: [User, Movie],
-      synchronize: true,
+      ssl: {
+        rejectUnauthorized: false, // allow self-signed AWS cert
+      },
+      autoLoadEntities: true,
+      synchronize: true, // for dev only, auto-create tables
     }),
+    // TypeOrmModule.forRoot({
+    //   type: 'postgres',
+    //   host: 'localhost',
+    //   port: 5432,
+    //   username: 'movie_user',
+    //   password: 'password123',
+    //   database: 'movie_db',
+    //   entities: [User, Movie],
+    //   synchronize: true,
+    // }),
 
     // Serve uploaded files under /uploads
     ServeStaticModule.forRoot({

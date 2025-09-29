@@ -57,12 +57,16 @@ export async function seedData(dataSource: DataSource) {
 if (require.main === module) {
   const dataSource = new DataSource({
     type: 'postgres',
-    host: 'localhost',
+    host: 'moviemanagerdb-1.cxamaiqqe85n.ap-southeast-2.rds.amazonaws.com',
     port: 5432,
-    username: 'movie_user',
-    password: 'password123',
-    database: 'movie_db',
+    username: 'postgres',
+    password: 'postgres#1',
+    database: 'postgres',
     entities: [User, Movie],
+    ssl: {
+      rejectUnauthorized: false, // allow self-signed AWS cert
+    },
+    // autoLoadEntities: true,
     synchronize: true,
   });
 
