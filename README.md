@@ -1,36 +1,35 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Movie Manager Backend
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+A RESTful API for managing a movie database built with NestJS, TypeORM, and PostgreSQL.
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+This backend service provides endpoints for movie management with user authentication. It allows users to register, login, and perform CRUD operations on movie entries including uploading movie posters.
+
+## Live Deployment
+
+- API Endpoint: [http://13.211.8.154:3001/api](http://13.211.8.154:3001/api)
+- Swagger Documentation: [http://13.211.8.154:3001/api](http://13.211.8.154:3001/api)
+- Github repo url : 'https://github.com/Priyank-a-a/movie-manager-back-end.git
+
+## Features
+
+- User authentication with JWT
+- User registration and login
+- CRUD operations for movies
+- Movie poster image upload and serving
+- API documentation with Swagger
+- PostgreSQL database integration
 
 ## Installation
 
 ```bash
 $ npm install
 ```
+
+## Database Configuration
+
+The application is configured to connect to a PostgreSQL database. Update the database configuration in `src/app.module.ts` if needed.
 
 ## Running the app
 
@@ -43,6 +42,9 @@ $ npm run start:dev
 
 # production mode
 $ npm run start:prod
+
+# seed database with initial data
+$ npm run seed
 ```
 
 ## Test
@@ -58,16 +60,52 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## Support
+## API Documentation
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Swagger documentation is available at `/api` endpoint. The API provides the following endpoints:
 
-## Stay in touch
+### Authentication
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+- `POST /auth/register` - Register a new user
+- `POST /auth/login` - Login and get JWT token
+
+### Movies
+
+- `GET /movies` - Get all movies
+- `GET /movies/:id` - Get a specific movie
+- `POST /movies` - Create a new movie (requires authentication)
+- `PATCH /movies/:id` - Update a movie (requires authentication)
+- `DELETE /movies/:id` - Delete a movie (requires authentication)
+- `POST /movies/:id/poster` - Upload a movie poster (requires authentication)
+
+## Deployment
+
+The application is deployed on AWS EC2 with a PostgreSQL RDS database.
+
+## Environment Variables
+
+The following environment variables can be configured:
+
+- Database connection parameters
+- JWT secret
+- CORS settings
+
+## Project Structure
+
+- `src/auth` - Authentication module with user entity and JWT strategy
+- `src/movie` - Movie module with CRUD operations
+- `src/main.ts` - Application entry point with Swagger setup
+- `src/seeder.ts` - Database seeder for initial data
+
+## Technologies Used
+
+- NestJS - A progressive Node.js framework
+- TypeORM - ORM for database interactions
+- PostgreSQL - Database
+- JWT - Authentication
+- Swagger - API documentation
+- AWS - Deployment (EC2 and RDS)
 
 ## License
 
-Nest is [MIT licensed](LICENSE).
+This project is MIT licensed.
